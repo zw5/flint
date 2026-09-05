@@ -1,0 +1,51 @@
+{
+  "scope": "Exact extraction of retained HbA1c summary rows; underlying predictions not recomputed",
+  "cohort_rows": 111,
+  "observed_hba1c_labels": 109,
+  "source_missing_data_behavior": "zscore_matrix replaces missing standardized targets with zero; reported correlation includes imputed targets",
+  "metric": "Pearson correlation between pooled LOOCV standardized predictions and globally standardized mean-imputed outcomes",
+  "rows": [
+    {
+      "domain": "blood_chemistry",
+      "k_identity_dims": "3",
+      "label": "Medical_LEMON__Blood_Sample__Blood_Results_LEMON__HBA1C_in_%",
+      "n": "109",
+      "cv_corr": "0.36910510441944777",
+      "in_sample_corr": "0.41803269819887845"
+    },
+    {
+      "domain": "blood_chemistry",
+      "k_identity_dims": "6",
+      "label": "Medical_LEMON__Blood_Sample__Blood_Results_LEMON__HBA1C_in_%",
+      "n": "109",
+      "cv_corr": "0.34504754474518184",
+      "in_sample_corr": "0.443139289875419"
+    },
+    {
+      "domain": "blood_chemistry",
+      "k_identity_dims": "10",
+      "label": "Medical_LEMON__Blood_Sample__Blood_Results_LEMON__HBA1C_in_%",
+      "n": "109",
+      "cv_corr": "0.31930672274494276",
+      "in_sample_corr": "0.4721361501077028"
+    },
+    {
+      "domain": "blood_chemistry",
+      "k_identity_dims": "20",
+      "label": "Medical_LEMON__Blood_Sample__Blood_Results_LEMON__HBA1C_in_%",
+      "n": "109",
+      "cv_corr": "0.2859139925966972",
+      "in_sample_corr": "0.5333829433979653"
+    }
+  ],
+  "available_files": [
+    "domain_label_reconstruction.csv",
+    "domain_recovery_summary.csv",
+    "SUMMARY.md"
+  ],
+  "not_available": [
+    "shared_identity_full.npz",
+    "original participant phenotype matrix",
+    "per-participant LOOCV predictions"
+  ]
+}

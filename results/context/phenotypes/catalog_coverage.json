@@ -1,0 +1,20 @@
+{
+  "operation": "Retained-table catalog generation, not statistical recomputation",
+  "source_label_rows": 1164,
+  "unique_fields": 291,
+  "dimension_settings": [
+    3,
+    6,
+    10,
+    20
+  ],
+  "domain_summary_rows": 20,
+  "complete_label_dimension_coverage": true,
+  "counts_by_domain": {
+    "blood_chemistry": 35,
+    "blood_pressure": 11,
+    "body_size": 4,
+    "cognition": 101,
+    "personality_affect": 140
+  }
+}

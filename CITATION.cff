@@ -4,7 +4,7 @@ title: "Flint: An EEG correlate of fluid intelligence"
 authors:
   - given-names: "Simon"
     family-names: "Velez"
-version: 0.1.3
+version: 0.2.0
 date-released: 2026-09-05
 type: software
 repository-code: "https://github.com/zw5/flint"

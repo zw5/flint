@@ -1,6 +1,6 @@
 # Flint: An EEG correlate of fluid intelligence
 
-*Theta lagged-field concentration and fluid reasoning in LEMON*
+*Theta lagged-field concentration, fluid reasoning, and broader phenotype readouts in LEMON*
 
 Simon Velez
 
@@ -8,7 +8,7 @@ Research note · 5 September 2026
 
 ## Abstract
 
-We describe an EEG method based on the spectral concentration of theta-band lagged cross-field geometry and report its association with fluid reasoning in 111 LEMON participants. In the untransformed broad posterior sensor field, concentration correlates with LPS fluid reasoning at partial Spearman r = 0.408 (p = 1.31 × 10⁻⁵), adjusting for cohort, age-bin midpoint, theta power, and static phase locking. The corresponding vocabulary correlation is 0.001, and adding vocabulary as a control preserves the reasoning association. The score uses the complete singular-value energy spectrum and averages across participant-carrier-aligned phase lags and recording windows. Within-recording odd/even and first/second split correlations are 0.954 and 0.948. Spatial smoothing attenuates the association, while high-boost ablations reach approximately 0.44 in individual lag rows. The release provides the participant feature tables, estimator source, and a statistical verifier that reproduces all 7,808 compared values across 880 association rows exactly. The result is an exploratory correlate in the original cohort; independent-cohort validation and a fresh EEG-to-feature reproduction remain open.
+We describe an EEG method based on the spectral concentration of theta-band lagged cross-field geometry and report its association with fluid reasoning in 111 LEMON participants. In the untransformed broad posterior sensor field, concentration correlates with LPS fluid reasoning at partial Spearman r = 0.408 (p = 1.31 × 10⁻⁵), adjusting for cohort, age-bin midpoint, theta power, and static phase locking. The corresponding vocabulary correlation is 0.001, and adding vocabulary as a control preserves the reasoning association. The score uses the complete singular-value energy spectrum and averages across participant-carrier-aligned phase lags and recording windows. Within-recording odd/even and first/second split correlations are 0.954 and 0.948. Spatial smoothing attenuates the association, while high-boost ablations reach approximately 0.44 in individual lag rows. The release provides the participant feature tables, estimator source, and a statistical verifier that reproduces all 7,808 compared values across 880 association rows exactly. A related five-band spatial-identity analysis contributes 1,164 retained evaluations covering 291 physiological and behavioral fields. These include positive individual prediction correlations for HbA1c, blood pressure, body measurements, reasoning, and selected questionnaire scales, with heterogeneous performance across entire domains. The results are exploratory findings in the original cohort; independent-cohort validation and fresh EEG-to-feature reproduction remain open.
 
 ## Data and outcome
 
@@ -68,6 +68,81 @@ Spatial ablations preserve the raw lane. Gaussian smoothing reduces the broad-po
 
 The earlier benchmark's three posterior-theta null-normalized focus variants yield r = 0.115 (synchronous time permutation), -0.173 (independent channel circular shifts), and -0.069 (timewise channel permutation). None is significant at the nominal 0.05 level. These variants divide the observed-minus-null difference by a null standard deviation and thus measure a different functional from the observed operator score. Their negative result limits claims of null-normalized temporal specificity; it does not change the observed raw association. A zero-lag full-operator comparison is not independently reproduced in this release.
 
+## A broader phenotype map
+
+The same research program examined whether a repeatable EEG identity representation could support readouts across several types of measurement. The retained domain-recovery experiment includes 291 numeric phenotype fields: 35 blood-chemistry fields, 11 blood-pressure and pulse fields, four anthropometric fields, 101 cognitive fields, and 140 personality/affect fields. All were evaluated at K = 3, 6, 10, and 20 identity coordinates, producing 1,164 label-level rows and 20 domain summaries. The complete [phenotype atlas](PHENOTYPE_ATLAS.md) renders every result in source-name order.
+
+This analysis has a shared EEG representation and a separate phenotype map for each domain. “Shared” refers to the representation and operator family, not to one fitted scalar that predicts all outcomes. The coordinate count is the same within a given K comparison. The reliability axes and domain map are refitted within each held-participant fold. The following HbA1c section describes the construction in detail.
+
+At K = 6, illustrative retained Pearson correlations are +0.494 for waist circumference, +0.472 for the second left systolic blood-pressure measurement, +0.443 for LPS_1, +0.434 for the CKD-EPI laboratory field, +0.345 for HbA1c percentage, +0.319 for weight, +0.318 for ASAT, +0.308 for hip circumference, +0.303 for UPPS lack of perseverance, and +0.302 for LOT-R optimism. These rows illustrate the breadth of the target field; they are not a list of independently validated biomarkers or the result of corrected per-label hypothesis tests.
+
+| Domain | Fields | Pooled LOOCV R², K = 3 | Pooled LOOCV R², K = 6 |
+|---|---:|---:|---:|
+| Blood chemistry | 35 | +0.0098 | -0.0105 |
+| Blood pressure | 11 | +0.1263 | +0.1008 |
+| Body measurements | 4 | +0.1192 | +0.0871 |
+| Cognition | 101 | -0.0074 | -0.0535 |
+| Personality and affect | 140 | -0.0089 | -0.0500 |
+
+The aggregate results distinguish a domain's shared recoverability from its strongest individual outcomes. At these settings the blood-pressure and body-measurement domains show positive pooled standardized R². The wider cognition and personality/affect fields do not, despite individual positive associations. Reported negative prediction correlations are also important: at K = 6, TSH is -0.454 and the NYC-Q item 28 is -0.368. These indicate an inverted relationship between the fitted prediction and the outcome. They cannot be reinterpreted as successful predictions simply by taking absolute values, or as the direction of a causal EEG–trait relationship.
+
+The recorded labels have different meanings and dependencies. Several blood-pressure rows repeat measurements across sides or occasions; HbA1c has alternate units; cognitive and personality rows can be test components, individual items, or composite scales. The atlas preserves the original names and signs and supplies observed-label counts. Missing target handling follows the common source procedure described below. The sweep does not report multiplicity-adjusted p-values for these 1,164 correlations, and its label inclusion and K exploration were not nested into an external cohort.
+
+### Why the breadth is consequential
+
+The research proposition is that EEG geometry can be used as a common starting point for studying several aspects of a person's functioning. A cognitive task, a blood sample, a cuff measurement, and a questionnaire observe different processes with different instruments. Finding structured relationships to all of them suggests a route toward studying their shared and distinct physiological organization.
+
+The value of the operator approach is that it supplies coordinates for this question. Temporal lags expose relationships across time; spectra describe how those relationships concentrate; spatial envelopes describe where a repeatable mode is expressed; and cross-covariance maps connect those readouts to other measurements. That makes it possible to ask which relationships share a carrier and which require distinct readouts, rather than treating every target as an unrelated prediction problem.
+
+The pattern also poses testable alternatives. Common age structure could account for part of several outcomes at once. Stable metabolic or vascular differences could shape aspects of neural coordination. Other associations could depend on behavior, arousal, or measurement conventions. These explanations have different predictions under covariate adjustment, cross-cohort transfer, and repeated observations of the same person. The published map provides a concrete empirical starting point for distinguishing them.
+
+A reproducible account of those relationships would be a substantial scientific advance: it would connect electrical dynamics at the scalp to a broader description of cognition and physiology. The present evidence motivates that program through actual retained results, with its strongest and weakest domains visible together.
+
+## Physiological extension: HbA1c
+
+### Motivation
+
+A fluid-reasoning correlate asks whether neural organization is informative about an ability measured through behavior. HbA1c adds a different kind of outcome: a laboratory measure of glycated hemoglobin reflecting average glucose exposure over approximately three months [2]. Its association with a short resting EEG observation raises a question about how persistent physiology is expressed in fast neural dynamics.
+
+The proposed explanation is shared physiological organization. Neural activity occurs within metabolic and vascular conditions that can persist beyond the observation window. If those conditions systematically shape coordination, a repeatable EEG coordinate can contain information about a laboratory measurement taken through another modality. This interpretation does not require the recorded brain activity to encode the assay value explicitly. It requires a reproducible statistical relationship between the two observations, and further evidence to distinguish its possible causes.
+
+There is relevant empirical precedent for a connection between glycemic regulation and electrophysiology. Cooray and colleagues studied 28 people with type 2 diabetes and 21 controls; among the patients, a group receiving intensified glycemic control showed changes in cognition, resting EEG alpha activity, and connectivity after two months [3]. That study supports investigating the connection, but it neither validates this Beam estimator nor identifies the cause of the LEMON association.
+
+### Operator lineage and prediction procedure
+
+The retained HbA1c result comes from `lemon_identity_yreg_domain_recovery.py`. Its input is a broader identity representation built from delta, theta, alpha, beta, and gamma bands. For each band and window, the source constructs the complex lagged cross-field operator and takes the absolute spatial envelope of its leading left singular vector. These envelopes are normalized and averaged within recording splits, then assembled across bands. This is a representation derived from the lagged operator; it is distinct from the full-spectrum theta concentration scalar used in the primary analysis.
+
+The reliability basis is obtained from the cross-covariance of separately standardized odd and even identity arrays. Each retained axis combines the corresponding left and right singular vectors. The domain analysis examines K = 3, 6, 10, and 20 coordinates. In each leave-one-out fold, it refits the reliability basis on the remaining participants, projects the held participant using the training transformation, and standardizes the projected coordinates using training statistics.
+
+A second cross-covariance maps the resulting EEG coordinates to the standardized blood-chemistry field. Its singular-value decomposition is retained up to rank min(K, 10). The held participant's EEG coordinates are contracted through that map to produce standardized label predictions. This is the original cross-covariance calculation; it should not be described as ordinary least-squares regression.
+
+### Retained observations
+
+| K | Reported HbA1c leave-one-out Pearson r | In-sample Pearson r |
+|---|---:|---:|
+| 3 | 0.369105 | 0.418033 |
+| 6 | 0.345048 | 0.443139 |
+| 10 | 0.319307 | 0.472136 |
+| 20 | 0.285914 | 0.533383 |
+
+The source analysis contains 111 participants and reports 109 finite original HbA1c observations. Its standardization helper replaces missing standardized targets with zero. Consequently, the reported correlation includes the two mean-imputed target entries; 109 is the observed-label count, not the literal correlation denominator. The leave-one-out predictions are in training-standardized units, while the final target table is standardized globally. These conventions are preserved in the archived source and should be reproduced explicitly before reporting a complete-case or clinically calibrated estimate.
+
+The analysis does not residualize age, cohort, sex, body composition, or EEG power before estimating this HbA1c relationship. Its Pearson prediction correlation is therefore different from the nuisance-adjusted partial rank correlation reported for fluid reasoning. The percentage and mmol/mol HbA1c columns describe the same assay in different units. They have nearly identical correlations and supply one biological finding.
+
+The dimension sweep is informative: higher K improves the in-sample fit while reducing the held-out correlation across these four settings. The strongest retained association is present at K = 3. Because the choice of K is examined across the original cohort, this is an exploratory comparison rather than a separately validated optimum.
+
+The complete domain tables are included to retain the broader context. Across all 35 blood-chemistry labels, pooled standardized LOOCV R² is 0.0098 at K = 3 and -0.0105 at K = 6. The positive HbA1c row therefore does not imply accurate reconstruction of the full blood panel. The same experiment reports positive domain-level values for blood pressure and body size at these settings, which motivates further work on their shared structure.
+
+### Scientific significance
+
+The consequential possibility is a bridge between cognitive and physiological measurement. The primary finding relates an explicit measure of theta coordination to reasoning. The physiological extension asks whether repeatable spatial organization in the same operator family is informative about a longer-term metabolic measure. Together, they motivate studying how a person's neural dynamics reflect several aspects of their functioning, with different readouts preserving different parts of the operator.
+
+The distinction between readouts is useful. It lets the research ask whether reasoning and metabolic state occupy shared coordinates, separable coordinates, or mixtures of both. A single positive scalar cannot resolve that question. The original operator geometry provides a way to formulate it: compare spectra, spatial envelopes, reliability directions, and cross-modal mappings while retaining the underlying field.
+
+If replicated with frozen definitions, observed-label scoring, relevant covariates, and repeated EEG/laboratory observations, this approach could help characterize how neural coordination relates to persistent physiological conditions and changes within a person. That would extend the value of EEG beyond the immediate electrical trace toward an interpretable description of the organism's state. The current cohort establishes a concrete association worth pursuing; the mechanism, external generalization, and within-person relationship remain separate empirical questions.
+
+The HbA1c tables are retained experimental outputs, not newly recomputed predictions. The original identity tensor, joined phenotype matrix, and per-participant prediction records are absent from this release workspace. Their recovery is needed for a fresh numerical reproduction. HbA1c also has determinants beyond glucose exposure, including red-cell turnover [2], so a causal account must be more specific than a generic claim that EEG reads metabolism.
+
 ## Interpretation and scope
 
 The empirical claim is that theta lagged-field spectral concentration covaries with measured fluid reasoning in this cohort after the specified adjustments. It is a correlate of a cognitive outcome. It does not establish causal enhancement, moment-to-moment intelligence measurement, or an independent-cohort prediction result.
@@ -78,8 +153,12 @@ The next reproduction step is recovery of the original channel/participant expor
 
 ## Availability and attribution
 
-The accompanying repository contains all retained participant features for the two tables, their original evaluations and split summaries, unchanged source files, and the statistical verifier. The source files retain their historical absolute paths and supporting project imports; they are provenance records, not a portable raw-data reproduction command. Only the documented verifier is the tested reproduction entry point in this release.
+The accompanying repository contains all retained participant features for the two primary tables, their original evaluations and split summaries, unchanged source files, and the statistical verifier. The physiological supplement adds the full retained domain-recovery tables, their summary, and the source defining the identity and cross-covariance readouts. The source files retain their historical absolute paths and supporting project imports; they are provenance records, not a portable raw-data reproduction command. Only the documented verifier is the tested reproduction entry point in this release.
 
 The original human data and their acquisition are credited to Babayan and the LEMON investigators [1].
 
 [1] Babayan A, et al. A mind-brain-body dataset of MRI, EEG, cognition, emotion, and peripheral physiology in young and old adults. Scientific Data 6, 180308 (2019). https://doi.org/10.1038/sdata.2018.308. [Open full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC6371893/).
+
+[2] National Institute of Diabetes and Digestive and Kidney Diseases. [The A1C Test & Diabetes](https://www.niddk.nih.gov/health-information/diagnostic-tests/a1c-test). Accessed 5 September 2026.
+
+[3] Cooray G, Nilsson E, Wahlin A, Laukka EJ, Brismar K, Brismar T. *Effects of intensified metabolic control on CNS function in type 2 diabetes.* Psychoneuroendocrinology (2011). [doi:10.1016/j.psyneuen.2010.06.009](https://doi.org/10.1016/j.psyneuen.2010.06.009).
