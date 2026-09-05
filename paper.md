@@ -2,7 +2,7 @@
 
 *Theta lagged-field concentration and fluid reasoning in LEMON*
 
-Ximon (zw5)
+Simon Velez
 
 Research note · 5 September 2026
 

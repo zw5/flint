@@ -2,7 +2,7 @@
 
 **An EEG correlate of fluid intelligence.**
 
-**Ximon ([zw5](https://github.com/zw5))**
+**[Simon Velez](https://github.com/zw5)**
 
 A method for measuring the concentration of theta-band EEG dynamics, with a fluid-reasoning correlate in the LEMON dataset.
 
