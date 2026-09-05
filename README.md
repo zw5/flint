@@ -1,4 +1,6 @@
-# An EEG correlate of fluid intelligence
+# Flint
+
+**An EEG correlate of fluid intelligence.**
 
 **Ximon ([zw5](https://github.com/zw5))**
 

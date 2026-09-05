@@ -1,4 +1,4 @@
-# An EEG correlate of fluid intelligence
+# Flint: An EEG correlate of fluid intelligence
 
 *Theta lagged-field concentration and fluid reasoning in LEMON*
 
