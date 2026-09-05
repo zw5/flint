@@ -1,0 +1,37 @@
+{
+  "scope": "Statistical recomputation from retained participant features; no raw-EEG rerun",
+  "spatial": {
+    "rows": 112,
+    "values_compared": 896,
+    "max_absolute_difference": 0.0
+  },
+  "benchmark": {
+    "rows": 768,
+    "values_compared": 6912,
+    "max_absolute_difference": 0.0
+  },
+  "reliability_rows_verified": 28,
+  "headline": {
+    "analysis": "strict",
+    "feature": "raw_posterior_broad__full_score",
+    "n": "111",
+    "controls": "cohort_code;age;raw_posterior_broad__theta_power;raw_posterior_broad__theta_static_plv",
+    "r_lps": "0.40764989018218023",
+    "p_lps": "1.311996392731486e-05",
+    "r_lps_plus_wst": "0.4077064038029409",
+    "p_lps_plus_wst": "1.4388077549248043e-05",
+    "r_wst": "0.0013876299067156338",
+    "p_wst": "0.9886822528214539",
+    "q_lps": "4.6231178089908785e-05"
+  },
+  "headline_bootstrap": {
+    "replicates": 3000,
+    "seed": 20260905,
+    "percentile_95_interval": [
+      0.18622333303425534,
+      0.5486730178692991
+    ],
+    "interpretation": "Conditional on historical score choice; not adjusted for discovery selection"
+  },
+  "passed": true
+}
