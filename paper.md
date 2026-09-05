@@ -1,12 +1,14 @@
-# Theta lagged-field concentration correlates with fluid reasoning in LEMON
+# An EEG correlate of fluid intelligence
+
+*Theta lagged-field concentration and fluid reasoning in LEMON*
 
 Ximon (zw5)
 
-Research note, 5 September 2026
+Research note · 5 September 2026
 
 ## Abstract
 
-We report an association between a Beam-derived measure of resting EEG geometry and fluid reasoning in 111 participants from the Leipzig Mind-Brain-Body dataset (LEMON). The measure is normalized spectral entropy reduction of the complex theta-band lagged cross-field operator, averaged across windows and participant-carrier-aligned phase lags. In the untransformed broad posterior sensor field, its partial Spearman correlation with LPS fluid reasoning is 0.408 (p = 1.31 × 10⁻⁵), adjusting for cohort, age-bin midpoint, theta power, and static phase locking. The corresponding vocabulary correlation is 0.001. The raw score has within-recording odd/even and first/second split correlations of 0.954 and 0.948. A preceding fixed-lag focus benchmark supports eyes-open theta specificity and a younger-cohort association, while its null-normalized variants do not retain the primary association. Spatial smoothing attenuates the raw concentration association; retained high-boost ablations reach approximately 0.44 in individual lag rows. Independent statistical recomputation reproduces all 7,808 compared values in 880 retained association rows exactly. These findings establish a reproducible cohort-level correlate, with independent-cohort validation and recovery of the original EEG export remaining open.
+We describe an EEG method based on the spectral concentration of theta-band lagged cross-field geometry and report its association with fluid reasoning in 111 LEMON participants. In the untransformed broad posterior sensor field, concentration correlates with LPS fluid reasoning at partial Spearman r = 0.408 (p = 1.31 × 10⁻⁵), adjusting for cohort, age-bin midpoint, theta power, and static phase locking. The corresponding vocabulary correlation is 0.001, and adding vocabulary as a control preserves the reasoning association. The score uses the complete singular-value energy spectrum and averages across participant-carrier-aligned phase lags and recording windows. Within-recording odd/even and first/second split correlations are 0.954 and 0.948. Spatial smoothing attenuates the association, while high-boost ablations reach approximately 0.44 in individual lag rows. The release provides the participant feature tables, estimator source, and a statistical verifier that reproduces all 7,808 compared values across 880 association rows exactly. The result is an exploratory correlate in the original cohort; independent-cohort validation and a fresh EEG-to-feature reproduction remain open.
 
 ## Data and outcome
 
@@ -16,7 +18,7 @@ The earlier benchmark additionally includes 131 eyes-closed participants. Compar
 
 ## Operator and readout
 
-The inherited pipeline resamples the preprocessed EEG to 125 Hz when necessary, using a common ordered channel set. For the concentration lineage, the signal is filtered to 4–8 Hz with a fourth-order Butterworth filter applied forward and backward. Its complex analytic phase is obtained by the Hilbert transform and amplitude normalization with the original numerical stabilizer:
+The EEG pipeline resamples the preprocessed EEG to 125 Hz when necessary, using a common ordered channel set. For the concentration lineage, the signal is filtered to 4–8 Hz with a fourth-order Butterworth filter applied forward and backward. Its complex analytic phase is obtained by the Hilbert transform and amplitude normalization with the original numerical stabilizer:
 
 ```math
 Z_j(t)=\frac{\operatorname{Hilbert}(X_{\theta,j})(t)}{|\operatorname{Hilbert}(X_{\theta,j})(t)|+10^{-9}}.
@@ -37,7 +39,7 @@ The source does not subtract a temporal mean in this matrix calculation. The con
 c_{\tau}=1-\frac{-\sum_i p_i\log p_i}{\log d},
 ```
 
-where d is the number of singular values. Every singular value enters the entropy; no learned latent basis or selected singular-mode subset replaces this operator.
+where d is the number of singular values. Every singular value enters the entropy.
 
 The carrier frequency is the peak of the aperture-averaged Welch spectrum in 4–8 Hz. Lags are the nearest sample to one quarter, one third, and one half of that carrier cycle. Scores average the three lag concentrations within each eight-second window, then average across the selected windows. The retained run used at most 24 windows; the source uses a four-second candidate step and evenly spaced selection across candidates when the cap is exceeded. The source phase field is computed over the full exported condition before window extraction. Consequently, within-recording splits should not be interpreted as independent recording sessions.
 
@@ -45,7 +47,7 @@ The earlier benchmark is a distinct functional of the same lagged spectrum: lead
 
 ## Statistical analysis
 
-Rank-transform the score, outcome, and each control. Regress the ranked score and ranked outcome separately on an intercept and the ranked controls. Correlate their residuals. The retained two-sided p-value uses a t approximation with n minus number-of-controls minus two degrees of freedom. Controls are cohort code, age-bin midpoint, theta power, and static phase-locking value measured in the corresponding representation. An additional analysis includes vocabulary; another adds theta carrier frequency. This procedure is an adjusted association, not a trained predictor of individual IQ.
+Rank-transform the score, outcome, and each control. Regress the ranked score and ranked outcome separately on an intercept and the ranked controls. Correlate their residuals. The retained two-sided p-value uses a t approximation with n minus number-of-controls minus two degrees of freedom. Controls are cohort code, age-bin midpoint, theta power, and static phase-locking value measured in the corresponding representation. An additional analysis includes vocabulary; another adds theta carrier frequency. This procedure estimates an adjusted association between participants.
 
 The independent verifier recomputes the entire 112-row spatial table and 768-row condition/band benchmark, including their Benjamini–Hochberg corrections. It also checks 28 reliability rows. A new 3,000-replicate participant bootstrap reranks and refits controls within every bootstrap sample, with seed 20260905. Its percentile 95% interval for the raw headline score is [0.186, 0.549], conditional on historical feature choice.
 
@@ -72,12 +74,12 @@ The empirical claim is that theta lagged-field spectral concentration covaries w
 
 The retained implementation developed through multiple representation and estimator experiments. Terms such as “locked” in historical filenames and summaries refer to settings fixed for particular runs; they do not establish preregistration before inspection of LEMON outcomes. Within-table q-values do not account for every earlier research decision. The release preserves the positive observations together with their actual selection history and comparison results.
 
-The next reproduction step is recovery of the original channel/participant export and a fresh EEG-to-feature calculation against these retained rows. A separate cohort evaluated with the frozen raw operator would address external generalization. Neither step requires replacing the Beam object with a generic classifier or optimizing its geometry against outcome labels.
+The next reproduction step is recovery of the original channel/participant export and a fresh EEG-to-feature calculation against these retained rows. A separate cohort evaluated with the frozen raw operator would address external generalization. Both steps can use the same operator and score definition.
 
 ## Availability and attribution
 
 The accompanying repository contains all retained participant features for the two tables, their original evaluations and split summaries, unchanged source files, and the statistical verifier. The source files retain their historical absolute paths and supporting project imports; they are provenance records, not a portable raw-data reproduction command. Only the documented verifier is the tested reproduction entry point in this release.
 
-Research authorship is Ximon's. Codex assisted with publication preparation and statistical verification. The original human data and their acquisition are credited to the LEMON investigators.
+The original human data and their acquisition are credited to Babayan and the LEMON investigators [1].
 
 [1] Babayan A, et al. A mind-brain-body dataset of MRI, EEG, cognition, emotion, and peripheral physiology in young and old adults. Scientific Data 6, 180308 (2019). https://doi.org/10.1038/sdata.2018.308. [Open full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC6371893/).

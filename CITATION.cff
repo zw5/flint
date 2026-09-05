@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "Please cite this research release and the original LEMON dataset descriptor."
-title: "Theta lagged-field concentration correlates with fluid reasoning in LEMON"
+title: "An EEG correlate of fluid intelligence"
 authors:
   - name: "Ximon"
-version: 0.1.0
+version: 0.1.1
 date-released: 2026-09-05
 type: software

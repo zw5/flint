@@ -1,6 +1,6 @@
 # Release provenance
 
-The release was assembled from the live `/Users/cio/Documents/interp` workspace on 2026-09-05. That workspace root has no Git repository, so no original root commit is claimed.
+The release was assembled on 2026-09-05 from the retained LEMON experiments and their original source files. The source workspace was not a Git repository; the publication repository starts with the release packaging.
 
 ## Retained inputs
 
