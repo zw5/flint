@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: "Please cite this research release and the original LEMON dataset descriptor."
-title: "Flint: An EEG correlate of fluid intelligence"
+title: "Flint: A general method for extracting structure from EEG"
 authors:
   - given-names: "Simon"
     family-names: "Velez"
-version: 0.2.0
+version: 0.3.0
 date-released: 2026-09-05
 type: software
 repository-code: "https://github.com/zw5/flint"

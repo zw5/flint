@@ -1,10 +1,12 @@
 # Flint
 
-**An EEG correlate of fluid intelligence, with a broader map of physiology and behavior.**
+**A general method for extracting structure from EEG.**
 
 **[Simon Velez](https://github.com/zw5)**
 
-Flint studies what the geometry of EEG dynamics can reveal about the person producing them. Its primary result is a theta-band correlate of fluid reasoning; a broader analysis examines 291 physiological and behavioral fields using related spatial readouts.
+Flint turns multichannel EEG into lagged field operators and derives distinct readouts of their temporal and spatial organization. The same method family supports spectral concentration, predictive focus, and repeatable spatial identity coordinates. This release applies those readouts to reasoning, vocabulary, and a 291-field map of physiology and behavior in LEMON.
+
+[**Method and research note**](paper.md) · [**Cross-validation**](CROSS_VALIDATION.md) · [**Figure gallery**](FIGURES.md) · [**Complete phenotype atlas**](PHENOTYPE_ATLAS.md)
 
 In **111 participants**, eyes-open posterior theta concentration correlates with fluid reasoning at **partial Spearman r = 0.408** after adjustment for age cohort, age-bin midpoint, theta power, and static phase locking. The association remains **r = 0.408** when vocabulary is included as an additional control.
 
@@ -22,13 +24,52 @@ Correlations with LPS and WST use the same four controls. The bootstrap interval
 
 [**Read the research note →**](paper.md) · [**Explore all 291 phenotype fields →**](PHENOTYPE_ATLAS.md)
 
-## How the method works
+## How the general method works
 
-The method filters the EEG to **4–8 Hz** and constructs a complex lagged cross-field operator from its analytic phase. The operator describes the relationship between the sensor field at one time and the field a fraction of a theta cycle later.
+Flint begins with a time-by-channel EEG field, a frequency support, and temporal lags. Filtering and the analytic signal provide a complex phase field. A lagged cross-field operator then records how the sensor coordinates at one time relate to those at a later time. Its complex entries and singular structure are the common starting point for several readouts.
 
-The score measures how concentrated the operator's singular-value energy is, using normalized spectral entropy. Every singular value contributes. Lags follow each participant's measured theta carrier at quarter-, third-, and half-cycle offsets; the score averages across these lags and recording windows.
+```mermaid
+flowchart LR
+    A[Multichannel EEG] --> B[Frequency support and analytic phase]
+    B --> C[Complex lagged field operator]
+    C --> D[Full-spectrum concentration]
+    C --> E[Leading energy and effective rank]
+    C --> F[Spatial mode envelopes]
+    F --> G[Split-reliable identity coordinates]
+    D --> H[Outcome-specific readout evaluation]
+    E --> H
+    G --> H
+```
 
-The main result uses the untransformed sensor field. The release also includes the earlier fixed-lag Beam focus benchmark, condition and frequency comparisons, null-normalized scores, and spatial smoothing/high-boost ablations.
+| Readout | What it extracts | Example in this release |
+|---|---|---|
+| Spectral concentration | How singular-value energy concentrates across the complete spectrum | Posterior theta and fluid reasoning |
+| Predictive focus | Leading energy fraction relative to entropy effective rank | Fixed-lag theta focus benchmark |
+| Spatial identity | Repeatable spatial envelopes across windows and frequency bands | Five-band phenotype mapping |
+
+The theta analysis uses 4–8 Hz and quarter-, third-, and half-cycle offsets of the measured carrier. The broader identity analysis uses five bands and split reliability. These are concrete configurations of the method, with different readouts; the spatial envelope is a reduced representation and should not be confused with the complete complex operator.
+
+Extraction and outcome calibration are separate stages. The EEG operator and per-participant readouts are computed without fitting cognitive or blood labels. Mappings to an outcome use training participants, and their predictions are evaluated on held participants. The release includes source for the EEG extraction lineage and runnable commands for analysis of the retained features; a portable end-to-end raw-EEG package is not yet included.
+
+## New cross-validated results
+
+The new evaluation runs three fixed EEG scores on **111 participants**, using leave-one-participant-out and **20 repeats of five-fold cross-validation**. Predictor scaling and calibration use training participants only. All 27,972 held-participant predictions and exact fold assignments are published.
+
+| EEG-only reasoning readout | Leave-one-out Pearson r | Out-of-fold R² |
+|---|---:|---:|
+| Broad posterior theta concentration | **0.401** | **0.157** |
+| Lateral posterior theta concentration | **0.408** | **0.163** |
+| Posterior theta focus ratio | **0.429** | **0.182** |
+
+These are new predictive-calibration results on the retained EEG scores, distinct from the original adjusted partial Spearman association above. Their features were discovered historically in the same cohort.
+
+![Additional performance beyond matched baselines](figures/cv_incremental_performance.png)
+
+The graph also tests what each EEG score adds to cohort, age-bin midpoint, power, and phase locking. For reasoning, broad and lateral concentration add approximately -0.004 and -0.005 to leave-one-out R²; the focus ratio adds +0.019. The full models' higher total correlations are largely supported by the covariate baseline. Vocabulary prediction has negative R² across all leave-one-out configurations. Every result is included in the [cross-validation report](CROSS_VALIDATION.md).
+
+![Reasoning performance over all 20 partitions](figures/cv_partition_stability.png)
+
+Each point is a complete five-fold run over the same 111 participants. The spread describes partition sensitivity, not additional participants or an external replication.
 
 ## Why this matters
 
@@ -39,6 +80,9 @@ The broader research program reaches into physiology as well. A related Beam rea
 The significance is the prospect of a common measurement framework: derive structured readouts from the same family of lagged operators, then ask how their different coordinates relate to reasoning, metabolism, and other bodily measurements. If those relationships generalize, this could give research a way to study cognitive performance together with its physiological context. The current results supply concrete examples and reusable calculations with which to pursue that possibility.
 
 ## The wider map: body, cognition, and reported experience
+
+![All 291 fields at K = 6](figures/phenotype_distribution.png)
+
 
 The retained domain experiment examines **291 phenotype fields** across **five domains**, using four coordinate counts for **1,164 label-level results**. It asks how much of the measured person can be recovered from repeatable spatial structure in the EEG. The input coordinates come from the same five-band identity representation; each domain has its own cross-covariance map.
 
@@ -70,6 +114,9 @@ The broader table reports pooled prediction correlations with the original mean-
 
 ## Why HbA1c enters the picture
 
+![Dimension curves for previously reported outcomes](figures/phenotype_dimension_curves.png)
+
+
 HbA1c measures glucose attached to hemoglobin and reflects average blood glucose over roughly three months. It therefore brings a much longer timescale into the analysis than an individual EEG oscillation. [NIDDK: The A1C Test & Diabetes](https://www.niddk.nih.gov/health-information/diagnostic-tests/a1c-test).
 
 A short observation of a dynamic system can contain information about persistent conditions that shape its behavior. Applied here, the hypothesis is that aspects of metabolic and vascular physiology help shape repeatable patterns of neural coordination. HbA1c and EEG could then carry related information because they are measurements of an interconnected organism. This is an interpretation of the association, not a mechanism identified by this experiment. Earlier clinical work has reported changes in EEG activity and connectivity alongside intensified glycemic control, providing biological context for investigating such a relationship. [Cooray et al., 2011](https://pubmed.ncbi.nlm.nih.gov/20656408/).
@@ -95,13 +142,18 @@ Across the tested settings, adding coordinates raises the in-sample fit while re
 python3.11 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python scripts/verify.py
+.venv/bin/python scripts/cross_validate_readouts.py
+.venv/bin/python scripts/write_cv_report.py
+.venv/bin/python scripts/plot_results.py
 ```
 
 For the fluid-reasoning experiments, the verifier recomputes **880 association rows**, including their within-table multiple-comparison corrections, and checks **28 reliability rows**. All **7,808 compared association values match the retained results exactly**. It also regenerates the figure and the participant-bootstrap interval.
 
 | Material | Contents |
 |---|---|
-| [Research note](paper.md) | Equations, sample, controls, results, and interpretation |
+| [Research note](paper.md) | General operator method, configurations, and interpretation |
+| [Cross-validation report](CROSS_VALIDATION.md) | New leave-one-out and repeated five-fold results |
+| [Figure gallery](FIGURES.md) | Eleven additional PNG/SVG figures, including full domain heatmaps |
 | [Participant features and results](results/retained/) | Complete tables for the two included experiments |
 | [Verification](results/verification/verification.json) | Numerical agreement and bootstrap results |
 | [Estimator source](source_original/) | Original implementation and supporting source files |

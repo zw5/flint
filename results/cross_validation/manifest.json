@@ -1,0 +1,61 @@
+{
+  "scope": "New cross-validation from retained fixed participant EEG scores; no EEG extraction rerun or external cohort",
+  "subjects": 111,
+  "targets": [
+    "LPS",
+    "WST"
+  ],
+  "scores": [
+    {
+      "name": "theta_concentration_broad",
+      "feature": "raw_posterior_broad__full_score",
+      "controls": [
+        "cohort_code",
+        "age",
+        "raw_posterior_broad__theta_power",
+        "raw_posterior_broad__theta_static_plv"
+      ]
+    },
+    {
+      "name": "theta_concentration_lateral",
+      "feature": "raw_lateral_posterior__full_score",
+      "controls": [
+        "cohort_code",
+        "age",
+        "raw_lateral_posterior__theta_power",
+        "raw_lateral_posterior__theta_static_plv"
+      ]
+    },
+    {
+      "name": "theta_focus_ratio",
+      "feature": "bfocus_ratio",
+      "controls": [
+        "cohort_code",
+        "age",
+        "band_power",
+        "static_plv"
+      ]
+    }
+  ],
+  "protocols": {
+    "leave_one_out": 111,
+    "repeated_5fold": {
+      "folds": 5,
+      "repeats": 20,
+      "seed": 20260905
+    }
+  },
+  "models": [
+    "score_only versus training-mean baseline",
+    "score_plus_covariates versus covariate-only baseline"
+  ],
+  "calibration": "ordinary least squares on training subjects; linear scalar readout with intercept; scaling fitted in training fold",
+  "selection": "scores fixed from published historical lineage before this run; no choice of best model by outcome; historical score discovery not nested",
+  "missing_data": "all inputs and targets finite; no target imputation",
+  "target_perturbation_invariance_checks": 12,
+  "prediction_rows": 27972,
+  "run_metric_rows": 252,
+  "summary_rows": 24,
+  "r2_definition": "1 - pooled out-of-fold SSE / full evaluation sample centered SST; baseline_r2 uses same denominator",
+  "repeat_intervals": "5th to 95th percentiles across random partitions; not confidence intervals or new participants"
+}

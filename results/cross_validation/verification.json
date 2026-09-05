@@ -1,0 +1,8 @@
+{
+  "unique_predictions_per_run": 111,
+  "run_count": 252,
+  "prediction_rows": 27972,
+  "metrics_independently_recomputed": 1764,
+  "figure_pairs_checked": 11,
+  "passed": true
+}

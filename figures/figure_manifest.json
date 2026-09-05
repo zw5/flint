@@ -1,0 +1,23 @@
+{
+  "new_figures": [
+    "phenotype_distribution",
+    "domain_generalization",
+    "atlas_blood_chemistry",
+    "atlas_blood_pressure",
+    "atlas_body_size",
+    "atlas_cognition",
+    "atlas_personality_affect",
+    "phenotype_dimension_curves",
+    "cv_incremental_performance",
+    "cv_predictions",
+    "cv_partition_stability"
+  ],
+  "count": 11,
+  "formats": [
+    "png",
+    "svg"
+  ],
+  "phenotype_source": "retained aggregate outputs",
+  "cv_source": "new participant-level cross-validation",
+  "all_phenotype_rows_plotted": 1164
+}

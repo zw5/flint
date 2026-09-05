@@ -1,6 +1,6 @@
-# Flint: An EEG correlate of fluid intelligence
+# Flint: A general method for extracting structure from EEG
 
-*Theta lagged-field concentration, fluid reasoning, and broader phenotype readouts in LEMON*
+*Lagged field operators, cognitive readouts, and physiological and behavioral applications*
 
 Simon Velez
 
@@ -8,7 +8,15 @@ Research note · 5 September 2026
 
 ## Abstract
 
-We describe an EEG method based on the spectral concentration of theta-band lagged cross-field geometry and report its association with fluid reasoning in 111 LEMON participants. In the untransformed broad posterior sensor field, concentration correlates with LPS fluid reasoning at partial Spearman r = 0.408 (p = 1.31 × 10⁻⁵), adjusting for cohort, age-bin midpoint, theta power, and static phase locking. The corresponding vocabulary correlation is 0.001, and adding vocabulary as a control preserves the reasoning association. The score uses the complete singular-value energy spectrum and averages across participant-carrier-aligned phase lags and recording windows. Within-recording odd/even and first/second split correlations are 0.954 and 0.948. Spatial smoothing attenuates the association, while high-boost ablations reach approximately 0.44 in individual lag rows. The release provides the participant feature tables, estimator source, and a statistical verifier that reproduces all 7,808 compared values across 880 association rows exactly. A related five-band spatial-identity analysis contributes 1,164 retained evaluations covering 291 physiological and behavioral fields. These include positive individual prediction correlations for HbA1c, blood pressure, body measurements, reasoning, and selected questionnaire scales, with heterogeneous performance across entire domains. The results are exploratory findings in the original cohort; independent-cohort validation and fresh EEG-to-feature reproduction remain open.
+Flint is a method for extracting temporal and spatial structure from multichannel EEG using complex lagged cross-field operators. We describe related readouts of their singular spectra and spatial modes, and present applications to cognition and physiology in LEMON. The raw broad-posterior theta concentration score correlates with fluid reasoning at partial Spearman r = 0.408 after adjustment for cohort, age-bin midpoint, theta power, and static phase locking. New calibration experiments evaluate three fixed scalar readouts using leave-one-out and 20 repeated five-fold partitions in 111 participants. EEG-only leave-one-out reasoning correlations range from 0.401 to 0.429, with out-of-fold R² from 0.157 to 0.182. Incremental performance over covariate baselines is smaller and is reported separately. A broader five-band spatial-identity experiment contributes 1,164 retained evaluations across 291 physiological and behavioral fields. Eleven additional figures expose the full phenotype map, dimensionality curves, held-participant predictions, and baseline comparisons. The release distinguishes newly computed feature-table cross-validation, exactly reproduced historical statistics, and retained phenotype summaries whose participant predictions are not available. These are original-cohort results; generality refers to the operator formulation and range of readouts, rather than validated prediction of arbitrary outcomes or transfer to untested datasets.
+
+## General extraction framework
+
+The method starts from a multichannel EEG field, a frequency support, a lag schedule, and a window schedule. It maps the signal to a complex analytic-phase field and constructs a lagged relationship between the full sensor coordinate vectors. The equations below define this operator explicitly. Changing a band's support or a lag changes the configuration; it does not require replacing the underlying construction.
+
+Different questions use different readouts. A full-spectrum entropy functional measures concentration. Leading energy and effective rank define a focus score. A leading spatial envelope, followed by split-reliability coordinates, provides a broader identity representation. These transformations retain different information and are documented separately. In particular, a spatial envelope removes the complex phase and most singular modes; it cannot be presented as the full native field.
+
+This separation makes the framework reusable: specify the extraction object first, then evaluate an outcome-specific readout without modifying the original operator to fit the reported metric. The LEMON experiments below are concrete applications. The current runnable release starts from retained participant features; the EEG extraction source is archived with its historical paths and dependencies.
 
 ## Data and outcome
 
@@ -67,6 +75,18 @@ The raw broad-posterior concentration score has odd/even window split r = 0.954 
 Spatial ablations preserve the raw lane. Gaussian smoothing reduces the broad-posterior association to 0.223 and 0.196 for its two widths. High-boost variants give aggregate correlations of 0.382–0.424 for the broad posterior aperture; individual lag rows reach 0.438. These are retained exploratory comparisons, not independent confirmations of a superior estimator. The raw result is the headline because it directly characterizes the untransformed field.
 
 The earlier benchmark's three posterior-theta null-normalized focus variants yield r = 0.115 (synchronous time permutation), -0.173 (independent channel circular shifts), and -0.069 (timewise channel permutation). None is significant at the nominal 0.05 level. These variants divide the observed-minus-null difference by a null standard deviation and thus measure a different functional from the observed operator score. Their negative result limits claims of null-normalized temporal specificity; it does not change the observed raw association. A zero-lag full-operator comparison is not independently reproduced in this release.
+
+## New cross-validation of fixed scalar readouts
+
+The v0.3.0 analysis calibrates three previously published scalar readouts on the original 111 participants: broad theta concentration, lateral theta concentration, and the earlier posterior-theta focus ratio. LPS and WST are evaluated separately. Each score is tested both alone and alongside cohort code, age-bin midpoint, band power, and static phase locking. Ordinary least-squares calibration has an intercept and training-fitted predictor scaling. It is a downstream evaluation of the fixed EEG score; it does not replace the operator with a new feature estimator.
+
+For each of the 12 readout/target/model configurations, leave-one-out CV produces one held-participant prediction per person, and 20 five-fold partitions produce 20 more. The same partition assignments are used across configurations. All inputs and outcomes are finite; no target imputation is used in these new runs. The 27,972 prediction rows, matched-baseline predictions, 252 run-metric rows, and 24 aggregate summaries are published. Twelve checks perturb a held participant's label and verify that their prediction is unchanged.
+
+EEG-only leave-one-out LPS results are r = 0.401, R² = 0.157 for broad concentration; r = 0.408, R² = 0.163 for lateral concentration; and r = 0.429, R² = 0.182 for focus ratio. The comparator is the training-fold mean. When covariates are included, the matched comparator is a model using the same covariates without the EEG score. Incremental leave-one-out R² is approximately -0.004, -0.005, and +0.019 respectively. Reporting the total full-model correlation as the EEG contribution would therefore misattribute performance supplied by the baseline.
+
+WST predictions have negative pooled R² in all six leave-one-out models, even where pooled prediction correlations have appreciable negative magnitude. The plots show their near-mean predictions and the identity line. These are predictive-calibration results, and they differ from the original nuisance-adjusted rank association both in metric and in functional form. No claim that the earlier association automatically implies incremental linear prediction is made.
+
+The repeated-partition ranges describe sensitivity to a fold partition; they are not confidence intervals. Feature choice was fixed before the new runs but developed historically on this cohort. This computation does not add independent subjects or nest the preceding research program into a fresh discovery split. The [cross-validation report](CROSS_VALIDATION.md) gives every configuration and exact methods, and the [figure gallery](FIGURES.md) shows predictions, partition stability, and improvements over matched baselines.
 
 ## A broader phenotype map
 
