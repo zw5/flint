@@ -24,6 +24,21 @@ Correlations with LPS and WST use the same four controls. The bootstrap interval
 
 [**Read the research note →**](paper.md) · [**Explore all 291 phenotype fields →**](PHENOTYPE_ATLAS.md)
 
+## Repository layout
+
+| Path | What it holds |
+|---|---|
+| `paper.md` | The research note: method, configurations, results, and interpretation. |
+| `CROSS_VALIDATION.md`, `PHENOTYPE_ATLAS.md`, `FIGURES.md` | Generated reports. Regenerate with the scripts below rather than editing by hand. |
+| `PROVENANCE.md` | What was copied, what was recomputed, and what raw-data records are missing. |
+| `scripts/` | Runnable Python that recomputes statistics, cross-validation, reports, and figures from the retained tables. Indexed in `scripts/README.md`. |
+| `results/` | Participant features, evaluation tables, cross-validation outputs, and verification receipts. Described in `results/README.md`. |
+| `figures/` | Every figure as PNG and SVG, plus a manifest of which script produced it. |
+| `source_original/` | The original EEG-extraction and analysis source, archived unchanged. Not runnable here. Indexed in `source_original/README.md`. |
+| `tests/` | Regression tests that re-derive the published cross-validation tables byte for byte. |
+
+The runnable part of the release starts from retained per-participant tables. The step from raw EEG to those tables is documented in `paper.md` and archived in `source_original/`, but the exported EEG it depends on is not distributed. See [Provenance](PROVENANCE.md).
+
 ## How the general method works
 
 Flint begins with a time-by-channel EEG field, a frequency support, and temporal lags. Filtering and the analytic signal provide a complex phase field. A lagged cross-field operator then records how the sensor coordinates at one time relate to those at a later time. Its complex entries and singular structure are the common starting point for several readouts.
@@ -138,14 +153,20 @@ Across the tested settings, adding coordinates raises the in-sample fit while re
 
 ## Reproduce the statistics
 
+Requires Python 3.11 or newer and the three packages in `requirements.txt`.
+
 ```sh
 python3.11 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python scripts/verify.py
+.venv/bin/python -m unittest discover -s tests   # regression tests
+.venv/bin/python scripts/verify.py                # recompute associations and bootstrap
 .venv/bin/python scripts/cross_validate_readouts.py
-.venv/bin/python scripts/write_cv_report.py
-.venv/bin/python scripts/plot_results.py
+.venv/bin/python scripts/write_cv_report.py       # CROSS_VALIDATION.md
+.venv/bin/python scripts/build_phenotype_catalog.py  # PHENOTYPE_ATLAS.md
+.venv/bin/python scripts/plot_results.py          # figures/
 ```
+
+The same steps are available as `make test`, `make verify`, `make cv`, `make report`, `make atlas`, and `make figures`; `make all` runs every stage in order. Each script is deterministic, so a full rerun should leave the working tree unchanged.
 
 For the fluid-reasoning experiments, the verifier recomputes **880 association rows**, including their within-table multiple-comparison corrections, and checks **28 reliability rows**. All **7,808 compared association values match the retained results exactly**. It also regenerates the figure and the participant-bootstrap interval.
 

@@ -193,7 +193,12 @@ def plot_associations(participants, evaluations, result) -> None:
     reasoning_residuals = residual_ranks(numeric_column(participants, "LPS"), controls)
     vocabulary_residuals = residual_ranks(numeric_column(participants, "WST"), controls)
     plt.rcParams.update(
-        {"font.size": 10, "axes.spines.top": False, "axes.spines.right": False}
+        {
+            "font.size": 10,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "svg.hashsalt": "flint-v030",
+        }
     )
     figure, axes = plt.subplots(1, 3, figsize=(13, 4.1))
     colors = ["#277a83" if r["cohort"] == "young" else "#b86143" for r in participants]
@@ -254,7 +259,10 @@ def plot_associations(participants, evaluations, result) -> None:
     figure.tight_layout(rect=(0, 0, 1, 0.94))
     for extension in ("png", "svg"):
         figure.savefig(
-            ROOT / f"figures/correlate.{extension}", dpi=180, bbox_inches="tight"
+            ROOT / f"figures/correlate.{extension}",
+            dpi=180,
+            bbox_inches="tight",
+            metadata={"Date": None} if extension == "svg" else None,
         )
 
 
