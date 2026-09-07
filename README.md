@@ -197,3 +197,7 @@ The human data were collected by **Babayan and colleagues** for the Leipzig Mind
 Babayan A, et al. *A mind-brain-body dataset of MRI, EEG, cognition, emotion, and peripheral physiology in young and old adults.* Scientific Data **6**, 180308 (2019). [doi:10.1038/sdata.2018.308](https://doi.org/10.1038/sdata.2018.308).
 
 The [official LEMON page](https://fcon_1000.projects.nitrc.org/indi/retro/MPI_LEMON/MPI_LEMON.html) provides data access and a PDDL data-sharing link. EEG and behavioral files are also available through the [GWDG distribution](https://ftp.gwdg.de/pub/misc/MPI-Leipzig_Mind-Brain-Body-LEMON/). This repository distributes derived participant tables. Please cite the dataset descriptor alongside this work.
+
+## License
+
+Code and derived tables in this repository are released under the [MIT License](LICENSE). The underlying LEMON data are distributed by their authors under the PDDL; cite the dataset descriptor above when reusing the derived tables.

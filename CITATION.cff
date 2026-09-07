@@ -8,3 +8,4 @@ version: 0.3.0
 date-released: 2026-09-05
 type: software
 repository-code: "https://github.com/zw5/flint"
+license: MIT
